@@ -10,7 +10,7 @@ HEADERS = {
 }
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 
 def get_marmiton_json(url: str) -> dict | None:
@@ -88,7 +88,7 @@ def get_recipe_urls(
     return list(recipe_links)
 
 
-all_muffins = get_recipe_urls(
-    query="muffin", nb_pages=100, save_to_file="data/muffin_links.txt"
-)
-logger.info(f"✅ Nombre de recettes trouvées : {len(all_muffins)}")
+# all_muffins = get_recipe_urls(
+#     query="muffin", nb_pages=100, save_to_file="data/muffin_links.txt"
+# )
+# logger.info(f"✅ Nombre de recettes trouvées : {len(all_muffins)}")
