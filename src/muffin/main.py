@@ -1,16 +1,19 @@
 import json
 import logging
+import random
 import time
 
 import httpx
 from bs4 import BeautifulSoup
 
+URLS_FILE = "data/muffin_links.txt"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
 }
+FAILED_LOG = "data/failed_urls.txt"
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 def get_marmiton_json(url: str) -> dict | None:
@@ -38,6 +41,7 @@ def get_marmiton_json(url: str) -> dict | None:
             return data
 
 
+## TEST
 # url_test = "https://www.marmiton.org/recettes/recette_muffins-a-la-banane_14745.aspx"
 # recipe_data = get_marmiton_json(url_test)
 
@@ -89,6 +93,44 @@ def get_recipe_urls(
 
 
 # all_muffins = get_recipe_urls(
-#     query="muffin", nb_pages=100, save_to_file="data/muffin_links.txt"
+#     query="muffin", nb_pages=100, save_to_file=URLS_FILE
 # )
 # logger.info(f"✅ Nombre de recettes trouvées : {len(all_muffins)}")
+
+
+def run_scraper():
+    # 1. Lire les URLs
+    with open(URLS_FILE, "r") as f:
+        urls = [line.strip() for line in f if line.strip()]
+
+    logger.info(f"😱 Total URLs à traiter : {len(urls)}")
+
+    for url in urls:
+        # 2. Extraire un ID unique de l'URL pour le nom de fichier
+        # Exemple: .../recette_muffins-au-chocolat_165038.aspx -> 165038
+        try:
+            recipe_id = url.split("_")[-1].split(".")[0]
+        except IndexError:
+            logger.warning(f"❌ Format d'URL inattendu : {url}")
+            recipe_id = str(hash(url))  # Fallback si format URL bizarre
+
+        file_path = "data/recipes/" + f"recipe_{recipe_id}.json"
+
+        logger.info(f"⏳ Téléchargement : {url}")
+        data = get_marmiton_json(url)
+
+        if data:
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=4)
+
+            # Pour la discrétion
+            time.sleep(random.uniform(1, 3))
+        else:
+            with open(FAILED_LOG, "a") as f:
+                f.write(f"{url}\n")
+
+    logger.info("✅ Processus terminé !")
+
+
+if __name__ == "__main__":
+    run_scraper()
