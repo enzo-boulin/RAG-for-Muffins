@@ -1,12 +1,16 @@
 import json
+import logging
 import time
 
 import httpx
 from bs4 import BeautifulSoup
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
 }
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 
 def get_marmiton_json(url: str) -> dict | None:
@@ -41,14 +45,16 @@ def get_marmiton_json(url: str) -> dict | None:
 #     print(json.dumps(recipe_data, indent=4, ensure_ascii=False))
 
 
-def get_recipe_urls(query="muffin", nb_pages=1):
+def get_recipe_urls(
+    query: str = "muffin", nb_pages: int = 1, save_to_file: str | None = None
+) -> list[str]:
     base_url = "https://www.marmiton.org/recettes/recherche.aspx"
     recipe_links = set()  # Utilisation d'un set pour éviter les doublons
 
     headers = HEADERS
 
     for page in range(1, nb_pages + 1):
-        print(f"Collecte de la page {page}...")
+        logger.info(f"⏳ Collecte de la page {page}...")
         params = {"aqt": query, "page": page}
 
         try:
@@ -56,25 +62,33 @@ def get_recipe_urls(query="muffin", nb_pages=1):
             response.raise_for_status()
             soup = BeautifulSoup(response.text, "html.parser")
 
-            # Sur Marmiton, les liens de recettes sont souvent dans des balises <a>
+            # Sur Marmiton, les liens de recettes sont dans des balises <a>
             # On cherche les liens qui contiennent "/recettes/recette_"
             for a in soup.find_all("a", href=True):
                 href = str(a["href"])
                 if "/recettes/recette_" in href:
-                    recipe_links.add("https://www.marmiton.org" + href)
+                    recipe_links.add(
+                        href
+                        if href.startswith("http")
+                        else "https://www.marmiton.org" + href
+                    )
 
-            # Politesse : petit délai pour ne pas surcharger le serveur
+            # Pour être plus discret
             time.sleep(1)
 
         except Exception as e:
-            print(f"Erreur sur la page {page}: {e}")
+            logger.warning(f"Erreur sur la page {page}: {e}")
             break
+
+    if save_to_file:
+        with open(save_to_file, "w") as f:
+            for link in recipe_links:
+                f.write(link + "\n")
 
     return list(recipe_links)
 
 
-# --- TEST ---
-all_muffins = get_recipe_urls(query="muffin", nb_pages=2)
-print(f"Nombre de recettes trouvées : {len(all_muffins)}")
-for url in all_muffins[:5]:  # Affiche les 5 premiers liens
-    print(f"- {url}")
+all_muffins = get_recipe_urls(
+    query="muffin", nb_pages=100, save_to_file="data/muffin_links.txt"
+)
+logger.info(f"✅ Nombre de recettes trouvées : {len(all_muffins)}")
