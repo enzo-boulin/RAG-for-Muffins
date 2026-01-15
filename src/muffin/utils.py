@@ -179,15 +179,10 @@ def fraction_to_float(value_str: str) -> float:
     return float(normalized_str)
 
 
-def clean_ingredients(
-    input_file: str = "data/raw_ingredients.txt",
-    output_file: str = "data/cleaned_ingredients.txt",
-):
-    """Parse les ingrédients bruts et sauvegarde les résultats nettoyés.
-    Args:
-        input_file (str): Chemin du fichier d'entrée avec les ingrédients bruts.
-        output_file (str): Chemin du fichier de sortie pour les ingrédients nettoyés.
-    """
+def clean_ingredient(
+    raw_ingredient: str,
+) -> Ingredient:
+    """Nettoie une chaîne d'ingrédient brut et retourne un objet Ingredient."""
     units = [
         # --- VOLUMES & CONTENANTS ---
         r"(?:verres?|tasses?|bols?|pots?|bocaux|briques?|briquettes?|boîtes?)",
@@ -216,57 +211,38 @@ def clean_ingredients(
     # Regex principale pour extraire QTY, UNIT et NAME
     regex = rf"^(?P<qty>\d+[\s\./]\d+|\d+(?:[\.,]\d+)?)?\s*(?P<unit>\b(?:{units_pattern})\b)?\s*(?:de\s+|d['’]\s*)?(?P<name>.*)"
 
-    try:
-        with (
-            open(input_file, "r", encoding="utf-8") as f_in,
-            open(output_file, "w", encoding="utf-8") as f_out,
-        ):
-            for line in f_in:
-                # Suppression des balises de source présentes dans raw_ingredients.txt
-                clean_line = re.sub(r"\]*\]", "", line).strip()
-                if not clean_line:
-                    continue
+    match = re.match(regex, raw_ingredient.strip(), re.IGNORECASE)
 
-                match = re.match(regex, clean_line, re.IGNORECASE)
-                if match:
-                    raw_qty = match.group("qty")
-                    qty = fraction_to_float(raw_qty) if raw_qty else None
+    if not match:
+        raise ValueError(f"Impossible de parser l'ingrédient : {raw_ingredient}")
 
-                    unit = match.group("unit") or None
-                    name = match.group("name").strip()
+    raw_qty = match.group("qty")
+    qty = fraction_to_float(raw_qty) if raw_qty else None
 
-                    # 1. Coupe à la première parenthèse ouvrante
-                    name = re.sub(r"\s*\(.*", "", name)
+    unit = match.group("unit") or None
+    name = match.group("name").strip()
 
-                    # 2. Coupe aux points de suspension (...)
-                    name = re.sub(r"\s*\.\.\..*", "", name)
+    # 1. Coupe à la première parenthèse ouvrante
+    name = re.sub(r"\s*\(.*", "", name)
 
-                    # --- NOUVELLE RÈGLE : Conjonctions et symboles ---
-                    # On cherche " et/ou ", " ou ", " et " ... (avec \b pour les mots entiers) ou le signe "+"
-                    # Puis on coupe tout ce qui suit (.*)
-                    name = re.sub(
-                        r"\s*(?:\bet/ou\b|\bou\b|\bet\b|\bplus\b|\bavec\b|\bpour\b|\bdans\b|\+).*",
-                        "",
-                        name,
-                        flags=re.IGNORECASE,
-                    )
+    # 2. Coupe aux points de suspension (...)
+    name = re.sub(r"\s*\.\.\..*", "", name)
 
-                    # 3. Nettoyage final des prépositions et espaces
-                    name = re.sub(r"^[dD]['’]\s*", "", name).strip()
+    # --- NOUVELLE RÈGLE : Conjonctions et symboles ---
+    # On cherche " et/ou ", " ou ", " et " ... (avec \b pour les mots entiers) ou le signe "+"
+    # Puis on coupe tout ce qui suit (.*)
+    name = re.sub(
+        r"\s*(?:\bet/ou\b|\bou\b|\bet\b|\bplus\b|\bavec\b|\bpour\b|\bdans\b|\+).*",
+        "",
+        name,
+        flags=re.IGNORECASE,
+    )
 
-                    ingredient = Ingredient(
-                        name=name,
-                        quantity=qty,
-                        unit=unit,
-                    )
+    # 3. Nettoyage final des prépositions et espaces
+    name = re.sub(r"^[dD]['’]\s*", "", name).strip()
 
-                    f_out.write(str(ingredient) + "\n")
-
-    except FileNotFoundError:
-        logger.error(f"Erreur : Le fichier '{input_file}' est introuvable.")
-
-    logger.info(f"Success ! Saved to {output_file}")
-
-
-if __name__ == "__main__":
-    clean_ingredients()
+    return Ingredient(
+        name=name,
+        quantity=qty,
+        unit=unit,
+    )
