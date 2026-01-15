@@ -8,6 +8,8 @@ import time
 import httpx
 from bs4 import BeautifulSoup
 
+from src.muffin.recipe import Ingredient
+
 URLS_FILE = "data/muffin_links.txt"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
@@ -162,7 +164,38 @@ def get_all_existing_ingredients(
     return all_ingredients
 
 
-def parse_and_save(
+def fraction_to_float(fraction_str):
+    """
+    Convertit une chaîne 'num/den' en valeur flottante.
+    Exemple : "3/4" -> 0.75
+    """
+    try:
+        # 1. Séparation de la chaîne
+        parts = fraction_str.split("/")
+
+        # 2. Vérification s'il s'agit bien d'une fraction
+        if len(parts) == 2:
+            numerator = float(parts[0])
+            denominator = float(parts[1])
+
+            # 3. Calcul du résultat
+            return numerator / denominator
+        else:
+            # Si c'est un nombre entier simple (ex: "5")
+            return float(fraction_str)
+
+    except ZeroDivisionError:
+        return "Erreur : Division par zéro"
+    except ValueError:
+        return "Erreur : Format invalide"
+
+
+# Test de la logique
+print(fraction_to_float("3/4"))  # Sortie : 0.75
+print(fraction_to_float("1/2"))  # Sortie : 0.5
+
+
+def clean_ingredients(
     input_file: str = "data/raw_ingredients.txt",
     output_file: str = "data/cleaned_ingredients.txt",
 ):
@@ -212,8 +245,9 @@ def parse_and_save(
 
                 match = re.match(regex, clean_line, re.IGNORECASE)
                 if match:
-                    qty = match.group("qty") or "N/A"
-                    unit = match.group("unit") or "unité"
+                    qty = match.group("qty") or None
+
+                    unit = match.group("unit") or None
                     name = match.group("name").strip()
 
                     # 1. Coupe à la première parenthèse ouvrante
@@ -234,6 +268,12 @@ def parse_and_save(
 
                     # 3. Nettoyage final des prépositions et espaces
                     name = re.sub(r"^[dD]['’]\s*", "", name).strip()
+
+                    ingredient = Ingredient(
+                        name=name,
+                        quantity=qty,
+                        unit=unit,
+                    )
 
                     f_out.write(f"QTY: {qty} | UNIT: {unit} | NAME: {name}\n")
 

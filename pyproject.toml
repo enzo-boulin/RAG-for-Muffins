@@ -12,6 +12,7 @@ dependencies = [
     "pandas",
     "httpx",
     "beautifulsoup4",
+    "pytest",
 ]
 
 [tool.setuptools.packages.find]
