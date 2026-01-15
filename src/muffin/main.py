@@ -82,6 +82,8 @@ def parse_and_save(
     except FileNotFoundError:
         print(f"Erreur : Le fichier '{input_file}' est introuvable.")
 
+    print("Sucess !")
+
 
 if __name__ == "__main__":
     parse_and_save()
