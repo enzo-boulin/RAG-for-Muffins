@@ -8,7 +8,7 @@ import time
 import httpx
 from bs4 import BeautifulSoup
 
-from src.muffin.recipe import Ingredient
+from muffin.recipe import Ingredient
 
 URLS_FILE = "data/muffin_links.txt"
 HEADERS = {
@@ -164,35 +164,19 @@ def get_all_existing_ingredients(
     return all_ingredients
 
 
-def fraction_to_float(fraction_str):
+def fraction_to_float(value_str: str) -> float:
     """
-    Convertit une chaîne 'num/den' en valeur flottante.
-    Exemple : "3/4" -> 0.75
+    Convertit une chaîne (fraction ou décimal) en float.
+    Gère "3/4", "0.75" et "0,75".
     """
-    try:
-        # 1. Séparation de la chaîne
-        parts = fraction_str.split("/")
+    normalized_str = value_str.replace(",", ".")
 
-        # 2. Vérification s'il s'agit bien d'une fraction
+    if "/" in normalized_str:
+        parts = normalized_str.split("/")
         if len(parts) == 2:
-            numerator = float(parts[0])
-            denominator = float(parts[1])
+            return float(parts[0]) / float(parts[1])
 
-            # 3. Calcul du résultat
-            return numerator / denominator
-        else:
-            # Si c'est un nombre entier simple (ex: "5")
-            return float(fraction_str)
-
-    except ZeroDivisionError:
-        return "Erreur : Division par zéro"
-    except ValueError:
-        return "Erreur : Format invalide"
-
-
-# Test de la logique
-print(fraction_to_float("3/4"))  # Sortie : 0.75
-print(fraction_to_float("1/2"))  # Sortie : 0.5
+    return float(normalized_str)
 
 
 def clean_ingredients(
@@ -245,7 +229,8 @@ def clean_ingredients(
 
                 match = re.match(regex, clean_line, re.IGNORECASE)
                 if match:
-                    qty = match.group("qty") or None
+                    raw_qty = match.group("qty")
+                    qty = fraction_to_float(raw_qty) if raw_qty else None
 
                     unit = match.group("unit") or None
                     name = match.group("name").strip()
@@ -275,9 +260,13 @@ def clean_ingredients(
                         unit=unit,
                     )
 
-                    f_out.write(f"QTY: {qty} | UNIT: {unit} | NAME: {name}\n")
+                    f_out.write(str(ingredient) + "\n")
 
     except FileNotFoundError:
         logger.error(f"Erreur : Le fichier '{input_file}' est introuvable.")
 
     logger.info(f"Success ! Saved to {output_file}")
+
+
+if __name__ == "__main__":
+    clean_ingredients()

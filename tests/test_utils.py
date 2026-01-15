@@ -1,6 +1,4 @@
-import pytest
-from src.muffin.utils import clean_ingredients, fraction_to_float
-
+from muffin.utils import fraction_to_float
 
 # @pytest.mark.parametrize(
 #     "input_line, expected",
