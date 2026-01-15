@@ -27,8 +27,7 @@ def parse_and_save(
     input_file: str = "data/raw_ingredients.txt",
     output_file: str = "data/cleaned_ingredients.txt",
 ):
-    # 1. Liste des unités avec gestion des priorités (les plus longues d'abord)
-    # On ajoute \b pour éviter de tronquer les mots commençant par ces lettres
+    # Liste des unités avec gestion des priorités
     units = [
         r"cuillères? à soupe",
         r"cuillères? à café",
@@ -48,13 +47,12 @@ def parse_and_save(
         r"kg",
         r"dl",
         r"\bg\b",
-        r"\bl\b",  # \b protège le 'g' et le 'l' isolés
+        r"\bl\b",
     ]
 
-    # Utilisation de \b autour de l'unité pour ne pas mordre sur le nom
     units_pattern = r"|".join(units)
 
-    # Regex améliorée
+    # Regex principale pour extraire QTY, UNIT et NAME
     regex = rf"^(?P<qty>\d+[\s\./]\d+|\d+(?:[\.,]\d+)?)?\s*(?P<unit>\b(?:{units_pattern})\b)?\s*(?:de\s+|d['’]\s*)?(?P<name>.*)"
 
     try:
@@ -63,8 +61,8 @@ def parse_and_save(
             open(output_file, "w", encoding="utf-8") as f_out,
         ):
             for line in f_in:
-                # Suppression des balises de source
-                clean_line = re.sub(r"\[cite:[^\]]*\]", "", line).strip()
+                # Suppression des balises de source présentes dans raw_ingredients.txt
+                clean_line = re.sub(r"\]*\]", "", line).strip()
                 if not clean_line:
                     continue
 
@@ -74,15 +72,31 @@ def parse_and_save(
                     unit = match.group("unit") or "unité(s)"
                     name = match.group("name").strip()
 
-                    # Nettoyage final du nom (suppression des parenthèses ou restes de prépositions)
-                    name = re.sub(r"^[dD]['’]\s*", "", name)
+                    # 1. Coupe à la première parenthèse ouvrante
+                    name = re.sub(r"\s*\(.*", "", name)
+
+                    # 2. Coupe aux points de suspension (...)
+                    name = re.sub(r"\s*\.\.\..*", "", name)
+
+                    # --- NOUVELLE RÈGLE : Conjonctions et symboles ---
+                    # On cherche " et/ou ", " ou ", " et " (avec \b pour les mots entiers) ou le signe "+"
+                    # Puis on coupe tout ce qui suit (.*)
+                    name = re.sub(
+                        r"\s*(?:\bet/ou\b|\bou\b|\bet\b|\+).*",
+                        "",
+                        name,
+                        flags=re.IGNORECASE,
+                    )
+
+                    # 3. Nettoyage final des prépositions et espaces
+                    name = re.sub(r"^[dD]['’]\s*", "", name).strip()
 
                     f_out.write(f"QTY: {qty} | UNIT: {unit} | NAME: {name}\n")
 
     except FileNotFoundError:
         print(f"Erreur : Le fichier '{input_file}' est introuvable.")
 
-    print("Sucess !")
+    print("Success !")
 
 
 if __name__ == "__main__":
