@@ -82,7 +82,7 @@ def parse_and_save(
                     # On cherche " et/ou ", " ou ", " et " (avec \b pour les mots entiers) ou le signe "+"
                     # Puis on coupe tout ce qui suit (.*)
                     name = re.sub(
-                        r"\s*(?:\bet/ou\b|\bou\b|\bet\b|\bplus\b|\+).*",
+                        r"\s*(?:\bet/ou\b|\bou\b|\bet\b|\bplus\b|\bavec\b|\bpour\b|\+).*",
                         "",
                         name,
                         flags=re.IGNORECASE,

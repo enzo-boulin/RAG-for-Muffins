@@ -21,7 +21,7 @@ QTY: 230 | UNIT: g | NAME: myrtilles surgelées
 QTY: 500 | UNIT: g | NAME: farine
 QTY: 140 | UNIT: g | NAME: farine blanche
 QTY: 50 | UNIT: g | NAME: sucre
-QTY: 2 | UNIT: cuillères à soupe | NAME: sucre de canne pour le saupoudrer sur les muffins
+QTY: 2 | UNIT: cuillères à soupe | NAME: sucre de canne
 QTY: 1 | UNIT: tablettes | NAME: copeaux de chocolat
 QTY: 3 | UNIT: cuillères à soupe | NAME: pâte de spéculoos
 QTY: 4 | UNIT: gousses | NAME: ail
@@ -73,7 +73,7 @@ QTY: 240 | UNIT: g | NAME: chocolat praliné
 QTY: 2 | UNIT: unité | NAME: pêches
 QTY: N/A | UNIT: unité | NAME: origan
 QTY: N/A | UNIT: unité | NAME: pruneau
-QTY: 225 | UNIT: g | NAME: farine avec levure incorporée
+QTY: 225 | UNIT: g | NAME: farine
 QTY: N/A | UNIT: unité | NAME: Nutella
 QTY: 7 | UNIT: g | NAME: levure chimique
 QTY: 50 | UNIT: g | NAME: fromage râpé
@@ -120,7 +120,7 @@ QTY: 75 | UNIT: g | NAME: sucre en poudre
 QTY: 1 | UNIT: grosses pincées | NAME: sel
 QTY: N/A | UNIT: unité | NAME: sucre glace
 QTY: 1.5 | UNIT: unité | NAME: farine
-QTY: N/A | UNIT: unité | NAME: carambar© préalablement fondu avec de la crème fleurette
+QTY: N/A | UNIT: unité | NAME: carambar© préalablement fondu
 QTY: 250 | UNIT: g | NAME: mascarpone
 QTY: 125 | UNIT: ml | NAME: jus d'orange
 QTY: N/A | UNIT: unité | NAME: citron vert
@@ -246,7 +246,7 @@ QTY: 1/2 | UNIT: sachets | NAME: levure chimique
 QTY: 1 | UNIT: pots | NAME: yaourt soja nature
 QTY: 90 | UNIT: g | NAME: beurre salé
 QTY: 12 | UNIT: carrés | NAME: chocolat au lait environ
-QTY: N/A | UNIT: unité | NAME: raisins secs pour la déco
+QTY: N/A | UNIT: unité | NAME: raisins secs
 QTY: 50 | UNIT: g | NAME: emmental râpé
 QTY: 1 | UNIT: briques | NAME: crème semi liquide
 QTY: 4 | UNIT: cuillères à soupe | NAME: huile
@@ -269,7 +269,7 @@ QTY: 100 | UNIT: g | NAME: eau
 QTY: 1 | UNIT: branches | NAME: thym
 QTY: 25 | UNIT: g | NAME: beurre fondu
 QTY: 200 | UNIT: g | NAME: caramel au beurre salé
-QTY: N/A | UNIT: unité | NAME: beurre pour plaque à muffins
+QTY: N/A | UNIT: unité | NAME: beurre
 QTY: 375 | UNIT: ml | NAME: lait
 QTY: 100 | UNIT: g | NAME: pépites de chocolat
 QTY: 150 | UNIT: g | NAME: myrtilles congelées
@@ -385,7 +385,7 @@ QTY: 160 | UNIT: g | NAME: farine
 QTY: 220 | UNIT: g | NAME: amandes en poudre
 QTY: N/A | UNIT: unité | NAME: épices
 QTY: 50 | UNIT: g | NAME: pistaches crues émondées
-QTY: 9 | UNIT: unité | NAME: noisettes pour le décor
+QTY: 9 | UNIT: unité | NAME: noisettes
 QTY: 400 | UNIT: g | NAME: farine blanche
 QTY: 180 | UNIT: g | NAME: cassonade
 QTY: 3 | UNIT: cuillères à soupe | NAME: huile
@@ -397,7 +397,7 @@ QTY: 4 | UNIT: cuillères à café | NAME: cannelle
 QTY: 10 | UNIT: g | NAME: sucre
 QTY: 200 | UNIT: g | NAME: myrtilles
 QTY: N/A | UNIT: unité | NAME: cheddar
-QTY: N/A | UNIT: unité | NAME: sucre glace pour le décor
+QTY: N/A | UNIT: unité | NAME: sucre glace
 QTY: 130 | UNIT: g | NAME: yaourt
 QTY: 1/2 | UNIT: cuillères à café | NAME: vanille liquide
 QTY: 5 | UNIT: cl | NAME: huile
@@ -421,7 +421,7 @@ QTY: 250 | UNIT: g | NAME: pomme
 QTY: N/A | UNIT: unité | NAME: sésame , de lin, de tournesol
 QTY: 100 | UNIT: g | NAME: framboises
 QTY: 1 | UNIT: cuillères à soupe | NAME: herbes de Provence
-QTY: 60 | UNIT: g | NAME: chocolat pour la pâte
+QTY: 60 | UNIT: g | NAME: chocolat
 QTY: 100 | UNIT: ml | NAME: lait tiède
 QTY: 1 | UNIT: unité | NAME: yaourts natures 0 %
 QTY: 2 | UNIT: cuillères à soupe | NAME: lait
@@ -494,7 +494,7 @@ QTY: 1/2 | UNIT: pots | NAME: huile
 QTY: 50 | UNIT: g | NAME: comté râpé
 QTY: 250 | UNIT: g | NAME: chocolat pâtissier
 QTY: 3/4 | UNIT: tasses | NAME: thé de lait
-QTY: 1 | UNIT: unité | NAME: carambars© pour une tuile
+QTY: 1 | UNIT: unité | NAME: carambars©
 QTY: N/A | UNIT: unité | NAME: colorant alimentaire
 QTY: 1 | UNIT: verres | NAME: babeurre
 QTY: 6 | UNIT: carrés | NAME: chocolat noir
@@ -596,14 +596,14 @@ QTY: 113 | UNIT: g | NAME: datte séchées hachées
 QTY: 80 | UNIT: g | NAME: farine de maïs
 QTY: 200 | UNIT: g | NAME: beurre
 QTY: 1 | UNIT: cuillères à soupe | NAME: farine de blé noir
-QTY: 150 | UNIT: g | NAME: farine pour pâtisserie
+QTY: 150 | UNIT: g | NAME: farine
 QTY: 20 | UNIT: cl | NAME: crème liquide légère
 QTY: 1 | UNIT: unité | NAME: yaourts natures brassé
 QTY: 120 | UNIT: g | NAME: comté
 QTY: 1 | UNIT: cuillères à café | NAME: citron râpé
 QTY: 1 | UNIT: unité | NAME: tomates coupée
 QTY: 1 | UNIT: pots | NAME: purée de pommes sans sucre ajouté
-QTY: N/A | UNIT: unité | NAME: chocolat pour les gourmands
+QTY: N/A | UNIT: unité | NAME: chocolat
 QTY: 50 | UNIT: g | NAME: miel
 QTY: 1 | UNIT: pots | NAME: huile
 QTY: N/A | UNIT: unité | NAME: sésame
@@ -807,7 +807,7 @@ QTY: 10 | UNIT: unité | NAME: chocolat blanc
 QTY: 1/2 | UNIT: sachets | NAME: levure
 QTY: 4 | UNIT: cuillères à soupe | NAME: amandes en poudre
 QTY: 70 | UNIT: g | NAME: noix de coco rapée
-QTY: N/A | UNIT: unité | NAME: beurre pour les moules
+QTY: N/A | UNIT: unité | NAME: beurre
 QTY: 1 | UNIT: unité | NAME: yaourts velouté
 QTY: 50 | UNIT: g | NAME: dés de jambon
 QTY: 40 | UNIT: g | NAME: tomates confites à l’huile
@@ -856,7 +856,7 @@ QTY: 200 | UNIT: g | NAME: carotte fraîches
 QTY: 2 | UNIT: grosses cuillères à soupe | NAME: ricotta
 QTY: 1 | UNIT: pincées | NAME: poivre
 QTY: 1 | UNIT: gousses | NAME: vanille
-QTY: 15 | UNIT: g | NAME: beurre pour graisser le moule
+QTY: 15 | UNIT: g | NAME: beurre
 QTY: 400 | UNIT: g | NAME: cerises dénoyautées
 QTY: 1 | UNIT: tasses | NAME: chocolat blanc
 QTY: 2 | UNIT: unité | NAME: yaourts de 125 g
@@ -869,7 +869,7 @@ QTY: 1 | UNIT: cuillères à soupe | NAME: vinaigre de xérès
 QTY: 13 | UNIT: cl | NAME: lait
 QTY: 1 | UNIT: boîtes | NAME: thon
 QTY: 30 | UNIT: g | NAME: mozzarella râpée
-QTY: 300 | UNIT: g | NAME: farine avec levure incorporée
+QTY: 300 | UNIT: g | NAME: farine
 QTY: 100 | UNIT: g | NAME: tomate séchée
 QTY: 9 | UNIT: cl | NAME: huile végétale
 QTY: 50 | UNIT: g | NAME: beurre demi-sel
@@ -933,7 +933,7 @@ QTY: 3 | UNIT: unité | NAME: pommes
 QTY: 1 | UNIT: cuillères à soupe | NAME: lait
 QTY: 150 | UNIT: g | NAME: cassonade
 QTY: 4 | UNIT: unité | NAME: oeufs
-QTY: 300 | UNIT: g | NAME: farine pour pain brioché
+QTY: 300 | UNIT: g | NAME: farine
 QTY: 4 | UNIT: unité | NAME: abricots
 QTY: 1/2 | UNIT: cuillères | NAME: poivre
 QTY: 2 | UNIT: unité | NAME: oeufs durs
@@ -1122,7 +1122,7 @@ QTY: 150 | UNIT: g | NAME: farine à gâteaux
 QTY: 4 | UNIT: cl | NAME: rhum brun
 QTY: N/A | UNIT: unité | NAME: vermicelles de décoration
 QTY: 50 | UNIT: g | NAME: sucre semoule
-QTY: 60 | UNIT: g | NAME: beurre pour la pâte à muffin
+QTY: 60 | UNIT: g | NAME: beurre
 QTY: 3 | UNIT: unité | NAME: oeufs moyens
 QTY: 2 | UNIT: cuillères à soupe | NAME: olives noires au thym
 QTY: 150 | UNIT: g | NAME: fécule de maïs
@@ -1137,7 +1137,7 @@ QTY: 4 | UNIT: unité | NAME: pains à muffin
 QTY: N/A | UNIT: unité | NAME: moules à muffin individuels
 QTY: 3/4 | UNIT: pots | NAME: amandes en poudre
 QTY: 1 | UNIT: unité | NAME: plaques de chocolat
-QTY: 200 | UNIT: g | NAME: pralinoise pour dessert
+QTY: 200 | UNIT: g | NAME: pralinoise
 QTY: 100 | UNIT: g | NAME: flocons d'avoine
 QTY: 30 | UNIT: unité | NAME: cerises griottes
 QTY: 5 | UNIT: ml | NAME: cannelle
@@ -1148,7 +1148,7 @@ QTY: 1 | UNIT: cuillères à soupe | NAME: crème
 QTY: 1 | UNIT: demis | NAME: levure sachet
 QTY: 4 | UNIT: unité | NAME: petits suisses
 QTY: 200 | UNIT: g | NAME: lardons
-QTY: 1 | UNIT: sachets | NAME: levure chimique avec
+QTY: 1 | UNIT: sachets | NAME: levure chimique
 QTY: 150 | UNIT: g | NAME: beurre
 QTY: 70 | UNIT: g | NAME: sucre
 QTY: 400 | UNIT: g | NAME: purée de citrouille bien égouttée
@@ -1207,7 +1207,7 @@ QTY: N/A | UNIT: unité | NAME: coeur en sucre
 QTY: 8 | UNIT: unité | NAME: asperges fraîches
 QTY: 60 | UNIT: ml | NAME: huile de tournesol
 QTY: 4 | UNIT: cuillères à soupe | NAME: lait
-QTY: 265 | UNIT: g | NAME: farine avec levure incorporée
+QTY: 265 | UNIT: g | NAME: farine
 QTY: 250 | UNIT: g | NAME: farine complète
 QTY: 1 | UNIT: unité | NAME: poivrons rouges
 QTY: 180 | UNIT: g | NAME: farine 1/2 blanche, 1/4 seigle, 1/4 sarrasin
@@ -1217,7 +1217,7 @@ QTY: 1 | UNIT: brins | NAME: thym
 QTY: 1 | UNIT: poignées | NAME: muesli
 QTY: 50 | UNIT: g | NAME: chocolat blanc en pépites
 QTY: 300 | UNIT: g | NAME: farine de blé
-QTY: N/A | UNIT: unité | NAME: sucre glace pour la décoration
+QTY: N/A | UNIT: unité | NAME: sucre glace
 QTY: 3 | UNIT: cuillères à soupe | NAME: café très fort
 QTY: 2 | UNIT: cuillères à café | NAME: rases de curry
 QTY: 2 | UNIT: cuillères à soupe | NAME: cassonade
@@ -1526,7 +1526,7 @@ QTY: N/A | UNIT: unité | NAME: sirop d'érable
 QTY: 50 | UNIT: g | NAME: noix de coco
 QTY: 300 | UNIT: unité | NAME: rhubarbes
 QTY: 2 | UNIT: cuillères à soupe | NAME: maïzena
-QTY: N/A | UNIT: unité | NAME: amandes effilées pour le dessus
+QTY: N/A | UNIT: unité | NAME: amandes effilées
 QTY: 6 | UNIT: morceaux | NAME: tomate séchée
 QTY: 75 | UNIT: ml | NAME: lait demi-écrémé
 QTY: 6 | UNIT: unité | NAME: moules à soufflé individuels
@@ -1604,7 +1604,7 @@ QTY: 8 | UNIT: cl | NAME: beurre fondu
 QTY: 90 | UNIT: g | NAME: céréale croustillantes
 QTY: 1 | UNIT: petites pincées | NAME: sel
 QTY: 130 | UNIT: g | NAME: maïzena
-QTY: 1 | UNIT: unité | NAME: petites boîtes d'ananas au naturel, avec le jus
+QTY: 1 | UNIT: unité | NAME: petites boîtes d'ananas au naturel,
 QTY: 12 | UNIT: cl | NAME: lait entier
 QTY: N/A | UNIT: unité | NAME: poire
 QTY: 100 | UNIT: g | NAME: beurre
@@ -1743,7 +1743,7 @@ QTY: N/A | UNIT: unité | NAME: framboises surgelées
 QTY: 75 | UNIT: g | NAME: beurre
 QTY: 125 | UNIT: ml | NAME: miel liquide
 QTY: 4 | UNIT: unité | NAME: chèvres doux
-QTY: 100 | UNIT: g | NAME: céréale muesli chocolat avec petits morceaux de chocolat
+QTY: 100 | UNIT: g | NAME: céréale muesli chocolat
 QTY: N/A | UNIT: unité | NAME: sel fin
 QTY: 190 | UNIT: g | NAME: farine
 QTY: N/A | UNIT: unité | NAME: -1 sel
@@ -1761,7 +1761,7 @@ QTY: 2 | UNIT: grosses cuillères à soupe | NAME: persil haché
 QTY: 150 | UNIT: ml | NAME: cassonade
 QTY: 40 | UNIT: g | NAME: margarine
 QTY: 210 | UNIT: g | NAME: farine
-QTY: N/A | UNIT: unité | NAME: sucre roux pour la finition
+QTY: N/A | UNIT: unité | NAME: sucre roux
 QTY: 1 | UNIT: cuillères à soupe | NAME: miel liquide
 QTY: 3 | UNIT: cuillères | NAME: café de purée de piment d'Espelette
 QTY: N/A | UNIT: unité | NAME: vanille
@@ -1800,7 +1800,7 @@ QTY: 40 | UNIT: cl | NAME: lait
 QTY: 1/2 | UNIT: sachets | NAME: levure chimique
 QTY: 100 | UNIT: g | NAME: compote de pomme
 QTY: 80 | UNIT: g | NAME: sucre de canne blond
-QTY: 120 | UNIT: g | NAME: farine avec levure incorporée
+QTY: 120 | UNIT: g | NAME: farine
 QTY: 150 | UNIT: g | NAME: cerneau de noix
 QTY: N/A | UNIT: unité | NAME: persillade provençale
 QTY: 2 | UNIT: unité | NAME: oeufs
@@ -1812,7 +1812,7 @@ QTY: 1 | UNIT: pincées | NAME: sel
 QTY: 1 | UNIT: unité | NAME: yaourts natures
 QTY: 7.5 | UNIT: g | NAME: sucre vanillé
 QTY: 2 | UNIT: cuillères à soupe | NAME: cacao en poudre
-QTY: N/A | UNIT: unité | NAME: amandes effilées en option pour le décor
+QTY: N/A | UNIT: unité | NAME: amandes effilées en option
 QTY: N/A | UNIT: unité | NAME: raisins secs
 QTY: 15 | UNIT: cl | NAME: crème fraîche liquide entière
 QTY: 3 | UNIT: cuillères à café | NAME: curry
@@ -1944,7 +1944,7 @@ QTY: 25 | UNIT: g | NAME: levure fraîche de boulanger
 QTY: 1/2 | UNIT: tasses | NAME: lait
 QTY: 60 | UNIT: g | NAME: cerneau de noix
 QTY: 2 | UNIT: cuillères à soupe | NAME: eau
-QTY: N/A | UNIT: unité | NAME: noix de coco rapée pour parsemer sur le dessus des muffins
+QTY: N/A | UNIT: unité | NAME: noix de coco rapée
 QTY: 1 | UNIT: bocaux | NAME: crème de calissons
 QTY: 100 | UNIT: g | NAME: raisins secs
 QTY: 180 | UNIT: g | NAME: camembert
@@ -2006,7 +2006,7 @@ QTY: 30 | UNIT: g | NAME: noix hachées
 QTY: 15 | UNIT: cl | NAME: sirop de framboise
 QTY: 2 | UNIT: cuillères à café | NAME: cumin
 QTY: 3 | UNIT: unité | NAME: bananes assez mûres
-QTY: N/A | UNIT: unité | NAME: sésame pour la déco
+QTY: N/A | UNIT: unité | NAME: sésame
 QTY: 2 | UNIT: unité | NAME: oeufs battus
 QTY: 1/2 | UNIT: bouquets | NAME: persil haché
 QTY: 3 | UNIT: gouttes | NAME: amandes amère
@@ -2073,7 +2073,7 @@ QTY: 100 | UNIT: g | NAME: lardons fumés
 QTY: 10 | UNIT: g | NAME: amandes en poudre
 QTY: 4 | UNIT: cuillères à soupe | NAME: miel
 QTY: 1 | UNIT: unité | NAME: bananes bien mûre
-QTY: 2 | UNIT: cuillères à soupe | NAME: rhum brun pour parfumer
+QTY: 2 | UNIT: cuillères à soupe | NAME: rhum brun
 QTY: 1.5 | UNIT: cuillères à café | NAME: poudre à lever
 QTY: 420 | UNIT: g | NAME: farine
 QTY: 6 | UNIT: cuillères à soupe | NAME: huile
@@ -2135,7 +2135,7 @@ QTY: 125 | UNIT: g | NAME: amandes effilées
 QTY: 1/2 | UNIT: barquettes | NAME: fraises
 QTY: 2 | UNIT: cuillères à soupe | NAME: cacao en poudre non sucré
 QTY: 25 | UNIT: ml | NAME: crème liquide
-QTY: 300 | UNIT: g | NAME: farine avec levure incorporée
+QTY: 300 | UNIT: g | NAME: farine
 QTY: 3 | UNIT: pots | NAME: sucre
 QTY: 1 | UNIT: cuillères à café | NAME: Liqueur de fruits rouges
 QTY: 1 | UNIT: pincées | NAME: sel -poivre-persillade
@@ -2246,7 +2246,7 @@ QTY: 1 | UNIT: unité | NAME: petites boîtes de thon à l'huile de tournesol
 QTY: 10 | UNIT: cl | NAME: huile d'arachide
 QTY: 2.5 | UNIT: cuillères à café | NAME: levure
 QTY: 70 | UNIT: g | NAME: flocons d'avoine
-QTY: N/A | UNIT: unité | NAME: amandes effilées pour décorer
+QTY: N/A | UNIT: unité | NAME: amandes effilées
 QTY: 6 | UNIT: cuillères à soupe | NAME: compote d'abricots
 QTY: 1 | UNIT: unité | NAME: yaourts natures
 QTY: 100 | UNIT: g | NAME: beurre demi-sel
@@ -2257,7 +2257,7 @@ QTY: 190 | UNIT: g | NAME: farine classique type T.45
 QTY: 1 | UNIT: cuillères à café | NAME: vanille
 QTY: 1 | UNIT: unité | NAME: pommes
 QTY: 75 | UNIT: g | NAME: margarine
-QTY: N/A | UNIT: unité | NAME: pignons pour la déco
+QTY: N/A | UNIT: unité | NAME: pignons
 QTY: 80 | UNIT: g | NAME: farine
 QTY: 375 | UNIT: g | NAME: farine
 QTY: 1 | UNIT: unité | NAME: tomates
