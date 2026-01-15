@@ -79,10 +79,10 @@ def parse_and_save(
                     name = re.sub(r"\s*\.\.\..*", "", name)
 
                     # --- NOUVELLE RÈGLE : Conjonctions et symboles ---
-                    # On cherche " et/ou ", " ou ", " et " (avec \b pour les mots entiers) ou le signe "+"
+                    # On cherche " et/ou ", " ou ", " et " ... (avec \b pour les mots entiers) ou le signe "+"
                     # Puis on coupe tout ce qui suit (.*)
                     name = re.sub(
-                        r"\s*(?:\bet/ou\b|\bou\b|\bet\b|\bplus\b|\bavec\b|\bpour\b|\+).*",
+                        r"\s*(?:\bet/ou\b|\bou\b|\bet\b|\bplus\b|\bavec\b|\bpour\b|\bdans\b|\+).*",
                         "",
                         name,
                         flags=re.IGNORECASE,

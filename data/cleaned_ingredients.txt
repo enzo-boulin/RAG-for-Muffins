@@ -1031,7 +1031,7 @@ QTY: 1 | UNIT: cuillères | NAME: beurre d'érable
 QTY: 3 | UNIT: demis | NAME: poire au sirop
 QTY: 150 | UNIT: g | NAME: carotte râpées
 QTY: 20 | UNIT: g | NAME: sucre en poudre
-QTY: 25 | UNIT: g | NAME: chocolat noir dessert dans le quel on taillera des pépites grossières
+QTY: 25 | UNIT: g | NAME: chocolat noir dessert
 QTY: 100 | UNIT: g | NAME: bleu
 QTY: 20 | UNIT: g | NAME: pépites de chocolat
 QTY: 80 | UNIT: g | NAME: flocons d'avoine
@@ -1274,7 +1274,7 @@ QTY: 2 | UNIT: pots | NAME: cassonade
 QTY: 160 | UNIT: g | NAME: sucre roux
 QTY: 1 | UNIT: sachets | NAME: levure sans gluten
 QTY: 1 | UNIT: unité | NAME: chèvre frais
-QTY: N/A | UNIT: unité | NAME: tomate séchée marinées dans de l'huile
+QTY: N/A | UNIT: unité | NAME: tomate séchée marinées
 QTY: 220 | UNIT: ml | NAME: lait
 QTY: 7 | UNIT: cuillères à soupe | NAME: noix de coco rapée
 QTY: 120 | UNIT: g | NAME: cassonade
@@ -2037,7 +2037,7 @@ QTY: 1 | UNIT: boîtes | NAME: lait de coco
 QTY: 1/2 | UNIT: unité | NAME: muffins anglais
 QTY: 1 | UNIT: unité | NAME: oignons haché
 QTY: 1/4 | UNIT: tasses | NAME: thé d'huile
-QTY: 2 | UNIT: tasses | NAME: corn flakes , écrasées dans 1 tasse
+QTY: 2 | UNIT: tasses | NAME: corn flakes , écrasées
 QTY: 50 | UNIT: g | NAME: farine
 QTY: 10 | UNIT: cl | NAME: crème épaisse
 QTY: 1.5 | UNIT: pots | NAME: yaourt de sucre en poudre
