@@ -27,34 +27,35 @@ def parse_and_save(
     input_file: str = "data/raw_ingredients.txt",
     output_file: str = "data/cleaned_ingredients.txt",
 ):
-    # 1. Définition des motifs pour le parsing
-    # Liste enrichie basée sur les spécificités de votre fichier (ex: pots, sachets, tasses)
+    # 1. Liste des unités avec gestion des priorités (les plus longues d'abord)
+    # On ajoute \b pour éviter de tronquer les mots commençant par ces lettres
     units = [
         r"cuillères? à soupe",
         r"cuillères? à café",
         r"cuillères?",
-        r"g",
-        r"cl",
-        r"ml",
-        r"l",
-        r"kg",
-        r"pots?",
-        r"sachets?",
         r"gousses?",
+        r"sachets?",
         r"pincées?",
         r"tasses?",
         r"tablettes?",
-        r"briques?",
-        r"bouquets?",
         r"tranches?",
         r"boîtes?",
-        r"morceaux?",
-        r"carrés?",
+        r"pots?",
+        r"briques?",
+        r"bouquets?",
+        r"cl",
+        r"ml",
+        r"kg",
+        r"dl",
+        r"\bg\b",
+        r"\bl\b",  # \b protège le 'g' et le 'l' isolés
     ]
 
-    units_pattern = "|".join(units)
-    # Regex capturant : Quantité (Optionnelle), Unité (Optionnelle), et Nom
-    regex = rf"^(?P<qty>\d+[\s\./]\d+|\d+)?\s*(?P<unit>{units_pattern})?\s*(?:de\s+|d['’]\s*)?(?P<name>.*)"
+    # Utilisation de \b autour de l'unité pour ne pas mordre sur le nom
+    units_pattern = r"|".join(units)
+
+    # Regex améliorée
+    regex = rf"^(?P<qty>\d+[\s\./]\d+|\d+(?:[\.,]\d+)?)?\s*(?P<unit>\b(?:{units_pattern})\b)?\s*(?:de\s+|d['’]\s*)?(?P<name>.*)"
 
     try:
         with (
@@ -62,25 +63,21 @@ def parse_and_save(
             open(output_file, "w", encoding="utf-8") as f_out,
         ):
             for line in f_in:
-                # Nettoyage : suppression des balises [cite: 1, 15, 115]
+                # Suppression des balises de source
                 clean_line = re.sub(r"\[cite:[^\]]*\]", "", line).strip()
-
-                # Ignorer les lignes vides
                 if not clean_line:
                     continue
 
-                # Application de la Regex
                 match = re.match(regex, clean_line, re.IGNORECASE)
                 if match:
                     qty = match.group("qty") or "N/A"
                     unit = match.group("unit") or "unité(s)"
                     name = match.group("name").strip()
 
-                    # Formatage de la ligne de sortie
-                    output_line = f"QTY: {qty} | UNIT: {unit} | NAME: {name}\n"
-                    f_out.write(output_line)
+                    # Nettoyage final du nom (suppression des parenthèses ou restes de prépositions)
+                    name = re.sub(r"^[dD]['’]\s*", "", name)
 
-        print(f"Succès ! Le fichier '{output_file}' a été généré.")
+                    f_out.write(f"QTY: {qty} | UNIT: {unit} | NAME: {name}\n")
 
     except FileNotFoundError:
         print(f"Erreur : Le fichier '{input_file}' est introuvable.")
