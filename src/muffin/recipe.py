@@ -1,7 +1,21 @@
+import json
+import os
 import re
 from dataclasses import dataclass
+from enum import Enum
 
-from muffin.utils import fraction_to_float
+from muffin.utils import fraction_to_float, normalize_text
+
+
+class ServingUnit(str, Enum):
+    pieces = "pieces"
+    persons = "persons"
+
+
+@dataclass
+class Servings:
+    quantity: int
+    unit: ServingUnit
 
 
 @dataclass
@@ -13,13 +27,52 @@ class Ingredient:
 
 @dataclass
 class Recipe:
+    id: int
     title: str
     prep_time: int  # minutes
     cook_time: int  # minutes
     total_time: int  # minutes
-    servings: int
+    servings: Servings
     ingredients: list[Ingredient]
     instructions: list[str]
+
+
+def clean_servings(line: str) -> Servings:
+    """
+    Analyse une ligne pour extraire la quantité et l'unité.
+    """
+    normalized_line = normalize_text(line)
+
+    match_number = re.search(r"^(\d+)", normalized_line.strip())
+
+    quantity = int(match_number.group(1))
+
+    piece_keywords = [
+        "muffin",
+        "piece",
+        "brioche",
+        "confiserie",
+        "mini",
+        "burger",
+        "gateau",
+        "cupcake",
+    ]
+
+    person_keywords = [
+        "personne",
+        "portion",
+    ]
+
+    if any(kw in normalized_line for kw in piece_keywords):
+        unit = ServingUnit.pieces
+
+    elif any(kw in normalized_line for kw in person_keywords):
+        unit = ServingUnit.persons
+
+    else:
+        raise ValueError(f"Aucune unité reconnue dans la ligne : '{line}'")
+
+    return Servings(quantity=quantity, unit=unit)
 
 
 def clean_ingredient(
@@ -65,13 +118,12 @@ def clean_ingredient(
     unit = match.group("unit") or None
     name = match.group("name").strip()
 
-    # 1. Coupe à la première parenthèse ouvrante
+    # Coupe à la première parenthèse ouvrante
     name = re.sub(r"\s*\(.*", "", name)
 
-    # 2. Coupe aux points de suspension (...)
+    # Coupe aux points de suspension (...)
     name = re.sub(r"\s*\.\.\..*", "", name)
 
-    # --- NOUVELLE RÈGLE : Conjonctions et symboles ---
     # On cherche " et/ou ", " ou ", " et " ... (avec \b pour les mots entiers) ou le signe "+"
     # Puis on coupe tout ce qui suit (.*)
     name = re.sub(
@@ -81,7 +133,7 @@ def clean_ingredient(
         flags=re.IGNORECASE,
     )
 
-    # 3. Nettoyage final des prépositions et espaces
+    # Nettoyage final des prépositions et espaces
     name = re.sub(r"^[dD]['’]\s*", "", name).strip()
 
     return Ingredient(
@@ -89,3 +141,52 @@ def clean_ingredient(
         quantity=qty,
         unit=unit,
     )
+
+
+def clean_time(raw_time: str) -> int:
+    """Nettoie une chaîne de durée brute et retourne la durée en minutes."""
+    match = re.search(r"PT(\d+)M", raw_time)
+    return int(match.group(1))
+
+
+def raw_json_to_recipe(filepath: str) -> Recipe:
+    """Convertit un fichier JSON brut en objet Recipe."""
+    with open(filepath, "r", encoding="utf-8") as f:
+        raw_recipe = json.load(f)
+    ingredients = [
+        clean_ingredient(raw) for raw in raw_recipe.get("recipeIngredient", [])
+    ]
+    instructions = raw_recipe.get("recipeInstructions", [])
+    instructions = [step.get("text") for step in instructions]
+    return Recipe(
+        id=raw_recipe.get("id"),
+        title=raw_recipe.get("name"),
+        prep_time=raw_recipe.get("prepTime", 0),
+        cook_time=raw_recipe.get("cookTime", 0),
+        total_time=raw_recipe.get("totalTime", 0),
+        servings=raw_recipe.get("recipeYield", 1),
+        ingredients=ingredients,
+        instructions=instructions,
+    )
+
+
+if __name__ == "__main__":
+    filepath: str = "data/raw_recipes"
+    save_to: str = "data/"
+    all = []
+
+    for file in os.listdir(filepath):
+        if not file.endswith(".json"):
+            continue
+        with open(os.path.join(filepath, file), "r", encoding="utf-8") as f:
+            data = json.load(f)
+            # t1 = data.get("prepTime")
+            # t2 = data.get("cookTime")
+            # t3 = data.get("totalTime")
+            # all |= set([clean_time(t) for t in (t1, t2, t3)])
+            servings = clean_servings(data.get("recipeYield"))
+            all.append(servings)
+
+    with open(save_to + "tmp.txt", "w") as f:
+        for t in all:
+            f.write(str(t) + "\n")

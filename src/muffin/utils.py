@@ -3,6 +3,7 @@ import logging
 import os
 import random
 import time
+import unicodedata
 
 import httpx
 from bs4 import BeautifulSoup
@@ -161,6 +162,52 @@ def get_all_existing_ingredients(
     return all_ingredients
 
 
+def get_all_existing_times(
+    filepath: str = "data/raw_recipes", save_to: str = "data/"
+) -> set[str]:
+    all: set[str] = set()
+
+    for file in os.listdir(filepath):
+        if not file.endswith(".json"):
+            continue
+        with open(os.path.join(filepath, file), "r", encoding="utf-8") as f:
+            data = json.load(f)
+            t1 = data.get("prepTime")
+            t2 = data.get("cookTime")
+            t3 = data.get("totalTime")
+            all |= set((t1, t2, t3))
+
+    with open(save_to + "raw_times.txt", "w") as f:
+        for t in all:
+            f.write(t + "\n")
+
+    return all
+
+
+def get_all_existing_servings(
+    filepath: str = "data/raw_recipes", save_to: str = "data/"
+) -> set[str]:
+    all: set[str] = set()
+
+    for file in os.listdir(filepath):
+        if not file.endswith(".json"):
+            continue
+        with open(os.path.join(filepath, file), "r", encoding="utf-8") as f:
+            data = json.load(f)
+            servings = data.get("recipeYield")
+            all.add(servings)
+
+    with open(save_to + "raw_servings.txt", "w") as f:
+        for t in all:
+            f.write(t + "\n")
+
+    return all
+
+
+if __name__ == "__main__":
+    get_all_existing_servings()
+
+
 def fraction_to_float(value_str: str) -> float:
     """
     Convertit une chaîne (fraction ou décimal) en float.
@@ -174,3 +221,12 @@ def fraction_to_float(value_str: str) -> float:
             return float(parts[0]) / float(parts[1])
 
     return float(normalized_str)
+
+
+def normalize_text(text: str) -> str:
+    """Supprime les accents et convertit en minuscules."""
+    text = text.lower()
+    text = "".join(
+        c for c in unicodedata.normalize("NFD", text) if unicodedata.category(c) != "Mn"
+    )
+    return text
