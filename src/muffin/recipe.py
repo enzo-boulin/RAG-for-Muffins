@@ -36,6 +36,9 @@ class Recipe:
     ingredients: list[Ingredient]
     instructions: list[str]
 
+    def get_ingredients_name(self):
+        return [ingredient.name for ingredient in self.ingredients]
+
 
 def clean_servings(line: str) -> Servings:
     """
@@ -153,40 +156,48 @@ def raw_json_to_recipe(filepath: str) -> Recipe:
     """Convertit un fichier JSON brut en objet Recipe."""
     with open(filepath, "r", encoding="utf-8") as f:
         raw_recipe = json.load(f)
-    ingredients = [
-        clean_ingredient(raw) for raw in raw_recipe.get("recipeIngredient", [])
-    ]
-    instructions = raw_recipe.get("recipeInstructions", [])
-    instructions = [step.get("text") for step in instructions]
+
+    servings = clean_servings(raw_recipe.get("recipeYield"))
+
+    ingredients = [clean_ingredient(raw) for raw in raw_recipe.get("recipeIngredient")]
+
+    instructions = [step.get("text") for step in raw_recipe.get("recipeInstructions")]
+
     return Recipe(
-        id=raw_recipe.get("id"),
+        id=int(re.search(r"recipe_(\d+)", filepath).group(1)),
         title=raw_recipe.get("name"),
-        prep_time=raw_recipe.get("prepTime", 0),
-        cook_time=raw_recipe.get("cookTime", 0),
-        total_time=raw_recipe.get("totalTime", 0),
-        servings=raw_recipe.get("recipeYield", 1),
+        prep_time=clean_time(raw_recipe.get("prepTime")),
+        cook_time=clean_time(raw_recipe.get("cookTime")),
+        total_time=clean_time(raw_recipe.get("totalTime")),
+        servings=servings,
         ingredients=ingredients,
         instructions=instructions,
     )
 
 
 if __name__ == "__main__":
-    filepath: str = "data/raw_recipes"
-    save_to: str = "data/"
-    all = []
+    folder: str = "data/raw_recipes"
+    # save_to: str = "data/"
+    # all = []
 
-    for file in os.listdir(filepath):
+    # for file in os.listdir(filepath):
+    #     if not file.endswith(".json"):
+    #         continue
+    #     with open(os.path.join(filepath, file), "r", encoding="utf-8") as f:
+    #         data = json.load(f)
+    #         # t1 = data.get("prepTime")
+    #         # t2 = data.get("cookTime")
+    #         # t3 = data.get("totalTime")
+    #         # all |= set([clean_time(t) for t in (t1, t2, t3)])
+    #         servings = clean_servings(data.get("recipeYield"))
+    #         all.append(servings)
+
+    # with open(save_to + "tmp.txt", "w") as f:
+    #     for t in all:
+    #         f.write(str(t) + "\n")
+    for file in os.listdir(folder):
         if not file.endswith(".json"):
             continue
-        with open(os.path.join(filepath, file), "r", encoding="utf-8") as f:
-            data = json.load(f)
-            # t1 = data.get("prepTime")
-            # t2 = data.get("cookTime")
-            # t3 = data.get("totalTime")
-            # all |= set([clean_time(t) for t in (t1, t2, t3)])
-            servings = clean_servings(data.get("recipeYield"))
-            all.append(servings)
-
-    with open(save_to + "tmp.txt", "w") as f:
-        for t in all:
-            f.write(str(t) + "\n")
+        recipe = raw_json_to_recipe(os.path.join(folder, file))
+        print(recipe)
+        breakpoint()
