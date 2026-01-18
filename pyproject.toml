@@ -13,6 +13,8 @@ dependencies = [
     "httpx",
     "beautifulsoup4",
     "sqlalchemy",
+    "chromadb",
+    "sentence-transformers",
     "pytest",
 ]
 

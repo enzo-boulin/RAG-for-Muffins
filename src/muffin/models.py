@@ -1,6 +1,10 @@
+import logging
 import os
 from typing import List, Optional
 
+import chromadb
+from chromadb import Documents, EmbeddingFunction, Embeddings
+from sentence_transformers import SentenceTransformer
 from sqlalchemy import Float, ForeignKey, Integer, String, create_engine
 from sqlalchemy.orm import (
     DeclarativeBase,
@@ -15,6 +19,14 @@ from muffin.recipe import Ingredient, Recipe, Servings, ServingUnit, raw_json_to
 
 engine = create_engine("sqlite:///data/recipes.db", echo=True)
 SessionLocal = sessionmaker(bind=engine)
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+
+
+EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-small"
+COLLECTION_NAME = "muffin_lover"
+CHROMADB_PATH = "data/chromadb/"
 
 
 class Base(DeclarativeBase):
@@ -115,7 +127,33 @@ def save_recipe(recipe_data: Recipe) -> None:
         session.commit()
 
 
-def get_recipe_by_id(recipe_id: int) -> Recipe | None:
+def convert_model_to_dataclass(db_recipe: RecipeModel) -> Recipe:
+    servings = Servings(
+        quantity=db_recipe.servings.quantity,
+        unit=ServingUnit(db_recipe.servings.unit),
+    )
+
+    ingredients_list = [
+        Ingredient(name=ing.name, quantity=ing.quantity, unit=ing.unit)
+        for ing in db_recipe.ingredients
+    ]
+
+    instructions_sorted = sorted(db_recipe.instructions, key=lambda x: x.order)
+    instructions_list = [ins.text for ins in instructions_sorted]
+
+    return Recipe(
+        id=db_recipe.id,
+        title=db_recipe.title,
+        prep_time=db_recipe.prep_time,
+        cook_time=db_recipe.cook_time,
+        total_time=db_recipe.total_time,
+        servings=servings,
+        ingredients=ingredients_list,
+        instructions=instructions_list,
+    )
+
+
+def get_recipe_by_id(recipe_id: int) -> Recipe:
     """
     Récupère une recette en base et la convertit en dataclass Recipe.
     """
@@ -123,31 +161,9 @@ def get_recipe_by_id(recipe_id: int) -> Recipe | None:
         db_recipe = session.get(RecipeModel, recipe_id)
 
         if not db_recipe:
-            return None
+            raise ValueError(f"No recipe found with id {recipe_id}")
 
-        servings = Servings(
-            quantity=db_recipe.servings.quantity,
-            unit=ServingUnit(db_recipe.servings.unit),
-        )
-
-        ingredients_list = [
-            Ingredient(name=ing.name, quantity=ing.quantity, unit=ing.unit)
-            for ing in db_recipe.ingredients
-        ]
-
-        instructions_sorted = sorted(db_recipe.instructions, key=lambda x: x.order)
-        instructions_list = [ins.text for ins in instructions_sorted]
-
-        return Recipe(
-            id=db_recipe.id,
-            title=db_recipe.title,
-            prep_time=db_recipe.prep_time,
-            cook_time=db_recipe.cook_time,
-            total_time=db_recipe.total_time,
-            servings=servings,
-            ingredients=ingredients_list,
-            instructions=instructions_list,
-        )
+        return convert_model_to_dataclass(db_recipe)
 
 
 def raw_db_to_clean_db(folder: str = RAW_RECIPE_FOLDER) -> None:
@@ -156,3 +172,39 @@ def raw_db_to_clean_db(folder: str = RAW_RECIPE_FOLDER) -> None:
             continue
         recipe = raw_json_to_recipe(os.path.join(folder, file))
         save_recipe(recipe)
+
+
+# This class allow to do the embedding under the hood and directy pass the documents to chromadb
+class SentenceTransformerEmbeddingFunction(EmbeddingFunction):
+    def __call__(self, input: Documents) -> Embeddings:
+        logger.info("🤖 Chargement du modèle d'embedding multilingue...")
+        model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+        return model.encode(input).tolist()
+
+
+def create_embedding_db() -> None:
+    with SessionLocal() as session:
+        logger.info("⏳ Chargement des recettes depuis SQLite...")
+        recipes = session.query(RecipeModel).all()
+
+        ids = [str(recipe.id) for recipe in recipes]
+
+        ingredientss = [recipe.ingredients for recipe in recipes]
+        ingredientss = [
+            ", ".join([ingredient.name for ingredient in ingredients])
+            for ingredients in ingredientss
+        ]
+
+        client = chromadb.PersistentClient(path=CHROMADB_PATH)
+
+        collection = client.get_or_create_collection(
+            name=COLLECTION_NAME,
+            embedding_function=SentenceTransformerEmbeddingFunction(),
+        )
+        collection.add(documents=ingredientss, ids=ids)
+
+        logger.info(f"✅ Indexation terminée ! {collection.count()} recettes stockées.")
+
+
+if __name__ == "__main__":
+    create_embedding_db()
