@@ -1,5 +1,4 @@
 import json
-import os
 import re
 from dataclasses import dataclass
 from enum import Enum
@@ -173,31 +172,3 @@ def raw_json_to_recipe(filepath: str) -> Recipe:
         ingredients=ingredients,
         instructions=instructions,
     )
-
-
-if __name__ == "__main__":
-    folder: str = "data/raw_recipes"
-    # save_to: str = "data/"
-    # all = []
-
-    # for file in os.listdir(filepath):
-    #     if not file.endswith(".json"):
-    #         continue
-    #     with open(os.path.join(filepath, file), "r", encoding="utf-8") as f:
-    #         data = json.load(f)
-    #         # t1 = data.get("prepTime")
-    #         # t2 = data.get("cookTime")
-    #         # t3 = data.get("totalTime")
-    #         # all |= set([clean_time(t) for t in (t1, t2, t3)])
-    #         servings = clean_servings(data.get("recipeYield"))
-    #         all.append(servings)
-
-    # with open(save_to + "tmp.txt", "w") as f:
-    #     for t in all:
-    #         f.write(str(t) + "\n")
-    for file in os.listdir(folder):
-        if not file.endswith(".json"):
-            continue
-        recipe = raw_json_to_recipe(os.path.join(folder, file))
-        print(recipe)
-        breakpoint()
