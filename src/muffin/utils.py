@@ -25,17 +25,13 @@ def get_marmiton_json(url: str) -> dict | None:
     Récupère les données JSON-LD d'une recette Marmiton à partir de son URL.
     Retourne un dictionnaire avec les données de la recette ou None en cas d'échec
     """
-    # Définition des headers pour simuler un navigateur
     headers = HEADERS
 
-    # 1. Récupération de la page
     response = httpx.get(url, headers=headers)
     response.raise_for_status()
 
-    # 2. Analyse du HTML avec BeautifulSoup
     soup = BeautifulSoup(response.text, "html.parser")
 
-    # 3. Extraction du script JSON-LD
     elements = soup.find_all("script", type="application/ld+json")
 
     for element in elements:
@@ -44,7 +40,6 @@ def get_marmiton_json(url: str) -> dict | None:
 
         data = json.loads(element.string)
 
-        # Vérification si le @type est "Recipe" on a trouvé le bon JSON
         if isinstance(data, dict) and data.get("@type") == "Recipe":
             return data
 
@@ -103,15 +98,12 @@ def get_recipe_urls(
 
 def run_scraper():
     """Lance le scrapper pour récupérer les recettes Marmiton listées dans le fichier URLS_FILE."""
-    # 1. Lire les URLs
     with open(URLS_FILE, "r") as f:
         urls = [line.strip() for line in f if line.strip()]
 
     logger.info(f"😱 Total URLs à traiter : {len(urls)}")
 
     for url in urls:
-        # 2. Extraire un ID unique de l'URL pour le nom de fichier
-        # Exemple: .../recette_muffins-au-chocolat_165038.aspx -> 165038
         try:
             recipe_id = url.split("_")[-1].split(".")[0]
         except IndexError:
@@ -204,10 +196,6 @@ def get_all_existing_servings(
             f.write(t + "\n")
 
     return all
-
-
-if __name__ == "__main__":
-    get_all_existing_servings()
 
 
 def fraction_to_float(value_str: str) -> float:
