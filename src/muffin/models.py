@@ -1,3 +1,4 @@
+import os
 from typing import List, Optional
 
 from sqlalchemy import Float, ForeignKey, Integer, String, create_engine
@@ -9,9 +10,10 @@ from sqlalchemy.orm import (
     sessionmaker,
 )
 
-from muffin.recipe import Ingredient, Recipe, Servings, ServingUnit
+from muffin.constant import RAW_RECIPE_FOLDER
+from muffin.recipe import Ingredient, Recipe, Servings, ServingUnit, raw_json_to_recipe
 
-engine = create_engine("sqlite:///recipes.db", echo=True)
+engine = create_engine("sqlite:///data/recipes.db", echo=True)
 SessionLocal = sessionmaker(bind=engine)
 
 
@@ -19,7 +21,6 @@ class Base(DeclarativeBase):
     pass
 
 
-# 2. Modèles de données (Tables)
 class RecipeModel(Base):
     __tablename__ = "recipes"
 
@@ -80,12 +81,11 @@ def setup_database() -> None:
     Base.metadata.create_all(engine)
 
 
-def save_recipe(recipe_data: any) -> None:
+def save_recipe(recipe_data: Recipe) -> None:
     """
     Prend un objet Recipe (dataclass) et l'enregistre en base de données.
     """
     with SessionLocal() as session:
-        # Création de l'objet principal
         new_recipe = RecipeModel(
             id=recipe_data.id,
             title=recipe_data.title,
@@ -94,13 +94,11 @@ def save_recipe(recipe_data: any) -> None:
             total_time=recipe_data.total_time,
         )
 
-        # Ajout des portions
         new_recipe.servings = ServingsModel(
             quantity=recipe_data.servings.quantity,
             unit=recipe_data.servings.unit,
         )
 
-        # Ajout des ingrédients
         for ingredient in recipe_data.ingredients:
             new_recipe.ingredients.append(
                 IngredientModel(
@@ -110,7 +108,6 @@ def save_recipe(recipe_data: any) -> None:
                 )
             )
 
-        # Ajout des instructions
         for index, text in enumerate(recipe_data.instructions):
             new_recipe.instructions.append(InstructionModel(text=text, order=index))
 
@@ -151,3 +148,11 @@ def get_recipe_by_id(recipe_id: int) -> Recipe | None:
             ingredients=ingredients_list,
             instructions=instructions_list,
         )
+
+
+def raw_db_to_clean_db(folder: str = RAW_RECIPE_FOLDER) -> None:
+    for file in os.listdir(folder):
+        if not file.endswith(".json"):
+            continue
+        recipe = raw_json_to_recipe(os.path.join(folder, file))
+        save_recipe(recipe)

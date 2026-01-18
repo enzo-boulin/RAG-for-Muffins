@@ -8,6 +8,8 @@ import unicodedata
 import httpx
 from bs4 import BeautifulSoup
 
+from muffin.constant import RAW_RECIPE_FOLDER
+
 URLS_FILE = "data/muffin_links.txt"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
@@ -116,7 +118,7 @@ def run_scraper():
             logger.warning(f"❌ Format d'URL inattendu : {url}")
             recipe_id = str(hash(url))  # Fallback si format URL bizarre
 
-        file_path = "data/raw_recipes/" + f"recipe_{recipe_id}.json"
+        file_path = RAW_RECIPE_FOLDER + f"recipe_{recipe_id}.json"
 
         logger.info(f"⏳ Téléchargement : {url}")
         data = get_marmiton_json(url)
@@ -135,7 +137,7 @@ def run_scraper():
 
 
 def get_all_existing_ingredients(
-    filepath: str = "data/raw_recipes", save_to: str = "data/"
+    filepath: str = RAW_RECIPE_FOLDER, save_to: str = "data/"
 ) -> set[str]:
     """Parcourt tous les fichiers JSON dans le répertoire spécifié,
     extrait les ingrédients et les sauvegarde dans un fichier texte.
@@ -163,7 +165,7 @@ def get_all_existing_ingredients(
 
 
 def get_all_existing_times(
-    filepath: str = "data/raw_recipes", save_to: str = "data/"
+    filepath: str = RAW_RECIPE_FOLDER, save_to: str = "data/"
 ) -> set[str]:
     all: set[str] = set()
 
@@ -185,7 +187,7 @@ def get_all_existing_times(
 
 
 def get_all_existing_servings(
-    filepath: str = "data/raw_recipes", save_to: str = "data/"
+    filepath: str = RAW_RECIPE_FOLDER, save_to: str = "data/"
 ) -> set[str]:
     all: set[str] = set()
 
