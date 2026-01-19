@@ -45,6 +45,9 @@ class Recipe:
         result = []
         result.append(f"Titre : {self.title}")
         result.append(str(self.servings))
+        result.append(f"Temps de préparation {self.prep_time}")
+        result.append(f"Temps de cuisson {self.cook_time}")
+        result.append(f"Temps total {self.total_time}")
         result.append("Ingredients :")
         result += [str(ingredient) for ingredient in self.ingredients]
         result.append("Instructions :")
