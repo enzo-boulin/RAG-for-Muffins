@@ -16,12 +16,18 @@ class Servings:
     quantity: int
     unit: ServingUnit
 
+    def __str__(self) -> str:
+        return f"Pour {self.quantity} {self.unit.value}"
+
 
 @dataclass
 class Ingredient:
     name: str
     quantity: float | None
     unit: str | None
+
+    def __str__(self) -> str:
+        return f"{self.name} : {self.quantity or ''} {self.unit or ''}"
 
 
 @dataclass
@@ -35,8 +41,15 @@ class Recipe:
     ingredients: list[Ingredient]
     instructions: list[str]
 
-    def get_ingredients_name(self):
-        return [ingredient.name for ingredient in self.ingredients]
+    def __str__(self) -> str:
+        result = []
+        result.append(f"Titre : {self.title}")
+        result.append(str(self.servings))
+        result.append("Ingredients :")
+        result += [str(ingredient) for ingredient in self.ingredients]
+        result.append("Instructions :")
+        result += self.instructions
+        return " \n".join(result)
 
 
 def clean_servings(line: str) -> Servings:

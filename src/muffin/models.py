@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import List, Optional
+from typing import Any, List, Optional
 
 import chromadb
 from chromadb import Documents, EmbeddingFunction, Embeddings
@@ -14,19 +14,22 @@ from sqlalchemy.orm import (
     sessionmaker,
 )
 
-from muffin.constant import RAW_RECIPE_FOLDER
+from muffin.constant import (
+    CHROMADB_PATH,
+    COLLECTION_NAME,
+    LOGGING_LEVEL,
+    RAW_RECIPE_FOLDER,
+)
 from muffin.recipe import Ingredient, Recipe, Servings, ServingUnit, raw_json_to_recipe
 
-engine = create_engine("sqlite:///data/recipes.db", echo=True)
+engine = create_engine("sqlite:///data/recipes.db", echo=False)
 SessionLocal = sessionmaker(bind=engine)
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=LOGGING_LEVEL)
 
 
 EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-small"
-COLLECTION_NAME = "muffin_lover"
-CHROMADB_PATH = "data/chromadb/"
 
 
 class Base(DeclarativeBase):
@@ -176,6 +179,9 @@ def raw_db_to_clean_db(folder: str = RAW_RECIPE_FOLDER) -> None:
 
 # This class allow to do the embedding under the hood and directy pass the documents to chromadb
 class SentenceTransformerEmbeddingFunction(EmbeddingFunction):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
     def __call__(self, input: Documents) -> Embeddings:
         logger.info("🤖 Chargement du modèle d'embedding multilingue...")
         model = SentenceTransformer(EMBEDDING_MODEL_NAME)
@@ -204,7 +210,3 @@ def create_embedding_db() -> None:
         collection.add(documents=ingredientss, ids=ids)
 
         logger.info(f"✅ Indexation terminée ! {collection.count()} recettes stockées.")
-
-
-if __name__ == "__main__":
-    create_embedding_db()

@@ -8,7 +8,7 @@ import unicodedata
 import httpx
 from bs4 import BeautifulSoup
 
-from muffin.constant import RAW_RECIPE_FOLDER
+from muffin.constant import LOGGING_LEVEL, RAW_RECIPE_FOLDER
 
 URLS_FILE = "data/muffin_links.txt"
 HEADERS = {
@@ -17,7 +17,7 @@ HEADERS = {
 FAILED_LOG = "data/failed_urls.txt"
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=LOGGING_LEVEL)
 
 
 def get_marmiton_json(url: str) -> dict | None:

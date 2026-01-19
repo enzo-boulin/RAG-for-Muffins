@@ -16,6 +16,7 @@ dependencies = [
     "chromadb",
     "sentence-transformers",
     "pytest",
+    "ollama",
 ]
 
 [tool.setuptools.packages.find]
@@ -24,3 +25,4 @@ where = ["src"]
 [project.scripts]
 initialize_db = "muffin.models:setup_database"
 fill_db = "muffin.models:raw_db_to_clean_db"
+launch_ragamuffin = "muffin.main:main"
