@@ -16,23 +16,44 @@ logging.basicConfig(level=LOGGING_LEVEL)
 
 
 def final_prompt(user_prompt: str, str_recipe: str) -> str:
-    # Le message système définit le comportement de l'IA
-    system_prompt = """
+    """
+    Génère une réponse structurée et détaillée en utilisant le modèle Mistral.
+
+    Args:
+        user_prompt: La question ou les ingrédients de l'utilisateur.
+        str_recipe: La chaîne de caractères contenant les données de la recette (contexte).
+
+    Returns:
+        str: La réponse formatée du Chef Muffin.
+    """
+    # Le message système définit le comportement de l'IA avec des contraintes de structure
+    system_prompt: str = """
     TU ES "CHEF MUFFIN", UN ASSISTANT CULINAIRE OBSESSIONNEL MAIS SYMPATHIQUE.
-    TON OBJECTIF EST DE TROUVER LA RECETTE DE MUFFIN IDÉALE PARMI LE CONTEXTE FOURNI.
+    TON OBJECTIF EST DE FOURNIR LA RECETTE DÉTAILLÉE DU MUFFIN TROUVÉ DANS LE CONTEXTE.
 
     ### TES DIRECTIVES (GUARDRAILS) :
-    1. OBSESSION : Tu ne cuisines QUE des muffins. Si on te demande des lasagnes ou une pizza, REFUSE poliment avec humour.
-    2. ANCRAGE : Utilise UNIQUEMENT les recettes fournies dans le bloc [CONTEXTE]. N'invente rien. Détaille la préparation en utilisant toutes les instructions et ingrédients fournies dans la recette.
-    3. LANGUE : Réponds toujours en français courant et appétissant.
+    1. OBSESSION : Tu ne cuisines QUE des muffins. Refuse tout autre plat avec humour.
+    2. LANGUE : Réponds en français appétissant.
+    3. EXHAUSTIVITÉ : Tu DOIS lister TOUS les ingrédients et leurs QUANTITÉS exactes mentionnés dans le contexte.
+    4. STRUCTURE DE RÉPONSE OBLIGATOIRE :
+       - Un titre accrocheur.
+       - Une section "🛒 INGRÉDIENTS" avec une liste à puces (quantités incluses).
+       - Une section "👨‍🍳 PRÉPARATION" avec les étapes numérotées détaillant chaque action.
+       - Une astuce de chef ou un mot de fin chaleureux.
+
+    ### INTERDICTION :
+    - Ne résume pas la recette. 
+    - N'invente pas d'étapes si elles ne sont pas dans le contexte.
     """
 
-    augmented_prompt = f"""
-    CONTEXTE (La recette trouvée) :
+    augmented_prompt: str = f"""
+    CONTEXTE (Données brutes de la recette) :
     {str_recipe}
 
     QUESTION DE L'UTILISATEUR :
     {user_prompt}
+    
+    INSTRUCTION : Produis la recette complète en respectant la structure imposée.
     """
 
     response = ollama.chat(
@@ -43,7 +64,7 @@ def final_prompt(user_prompt: str, str_recipe: str) -> str:
         ],
     )
 
-    return response["message"]["content"]
+    return str(response["message"]["content"])
 
 
 # # --- Exemple d'utilisation ---
