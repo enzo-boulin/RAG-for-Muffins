@@ -4,6 +4,8 @@
 
 This project is a RAG (Retrieval-Augmented Generation) application designed to help you find the perfect muffin recipe based on the ingredients in your fridge.
 
+Not only does he cooks but the chatbot also loves to rap.
+
 **Note on Language:** While the code and documentation are in English, the AI assistant—**MC Muffin**—is programmed to respond exclusively in **French**.
 
 ## Getting Started
@@ -37,7 +39,7 @@ ollama pull mistral
 
 ### 3. Initialize the Database (Optional)
 
-I commited the SQLite db (data/recipes.db) so this section can be skipped and directly lauch the app.
+I commited the SQLite and chroma db so this section can be skipped and directly lauch the app.
 
 For the curious ones, I created my own crawler based on `httpx` to get the recipes :
 
@@ -86,3 +88,7 @@ Key libraries used in this project include:
 * `streamlit`: For the web interface.
 * `sqlalchemy`: For managing the recipe database.
 * `beautifulsoup4`: For data scraping/parsing.
+
+## Performance
+
+Running Mistral 7B locally can be quite intensive for the computer, the model needs 4.5 Go of free space and ideally 15 GB of RAM with a CPU, although it worked on my mac M1 8BG.
