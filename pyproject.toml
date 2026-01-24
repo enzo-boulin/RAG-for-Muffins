@@ -28,3 +28,4 @@ where = ["src"]
 scrap_recipes = "muffin.scraper:run_scraper"
 initialize_db = "muffin.models:setup_database"
 fill_db = "muffin.models:raw_db_to_clean_db"
+create_and_fill_embeddings_db = "muffin.models:create_embedding_db"

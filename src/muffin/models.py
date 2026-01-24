@@ -99,9 +99,6 @@ def setup_database() -> None:
 
 
 def save_recipe(recipe_data: Recipe) -> None:
-    """
-    Prend un objet Recipe (dataclass) et l'enregistre en base de données.
-    """
     with SessionLocal() as session:
         new_recipe = RecipeModel(
             id=recipe_data.id,
@@ -159,9 +156,6 @@ def convert_model_to_dataclass(db_recipe: RecipeModel) -> Recipe:
 
 
 def get_recipe_by_id(recipe_id: int) -> Recipe:
-    """
-    Récupère une recette en base et la convertit en dataclass Recipe.
-    """
     with SessionLocal() as session:
         db_recipe = session.get(RecipeModel, recipe_id)
 
@@ -186,14 +180,14 @@ class SentenceTransformerEmbeddingFunction(EmbeddingFunction):
         super().__init__(*args, **kwargs)
 
     def __call__(self, input: Documents) -> Embeddings:
-        logger.info("🤖 Chargement du modèle d'embedding multilingue...")
+        logger.info("🤖 Loading multilingual embedding model...")
         model = SentenceTransformer(EMBEDDING_MODEL_NAME)
         return model.encode(input).tolist()
 
 
 def create_embedding_db() -> None:
     with SessionLocal() as session:
-        logger.info("⏳ Chargement des recettes depuis SQLite...")
+        logger.info("⏳ Loading recipes from SQLite...")
         recipes = session.query(RecipeModel).all()
 
         ids = [str(recipe.id) for recipe in recipes]
@@ -212,4 +206,4 @@ def create_embedding_db() -> None:
         )
         collection.add(documents=ingredientss, ids=ids)
 
-        logger.info(f"✅ Indexation terminée ! {collection.count()} recettes stockées.")
+        logger.info(f"✅ Indexation over ! {collection.count()} recipes embedded.")
