@@ -5,3 +5,4 @@ data/raw_recipes
 .DS_Store
 chromadb
 data/response.txt
+data/muffin_links.txt
