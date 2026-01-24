@@ -3,6 +3,6 @@ __pycache__
 *egg-info
 data/raw_recipes
 .DS_Store
-chromadb
+data/chromadb/8602a7d8-ff75-4fbf-8a26-6a36e24c8506
 data/response.txt
 data/muffin_links.txt
