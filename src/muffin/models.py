@@ -93,7 +93,9 @@ class InstructionModel(Base):
 
 
 def setup_database() -> None:
+    logger.info("Creating SQLite db...")
     Base.metadata.create_all(engine)
+    logger.info("Done !")
 
 
 def save_recipe(recipe_data: Recipe) -> None:
@@ -175,6 +177,7 @@ def raw_db_to_clean_db(folder: str = RAW_RECIPE_FOLDER) -> None:
             continue
         recipe = raw_json_to_recipe(os.path.join(folder, file))
         save_recipe(recipe)
+        logger.info(f"Saved {recipe.title} to db")
 
 
 # This class allow to do the embedding under the hood and directy pass the documents to chromadb
