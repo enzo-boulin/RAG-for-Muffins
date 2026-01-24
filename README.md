@@ -35,10 +35,17 @@ ollama pull mistral
 ```
 3. Ensure the Ollama server is running in the background so the `ollama.chat` calls can execute.
 
-### 3. Initialize the Database
+### 3. Initialize the Database (Optional)
 
-Before running the app, you need to prepare the recipe data:
+I commited the SQLite db (data/recipes.db) so this section can be skipped and directly lauch the app.
 
+For the curious ones, I created my own crawler based on `httpx` to get the recipes :
+
+1. Fetch all the muffin recipes as raw json on [Marmiton](https://www.marmiton.org/) website by running :
+```bash
+scrap_recipes
+```
+2. Create and fill SQLite DB :
 ```bash
 # Setup the SQLite database schema
 initialize_db
@@ -46,7 +53,6 @@ initialize_db
 # Process raw data into the clean database
 fill_db
 ```
-
 *(Commands defined in `pyproject.toml`)*
 
 ### 4. Launch the App
@@ -54,12 +60,12 @@ fill_db
 Run the Streamlit interface (local):
 
 ```bash
-launch_ragamuffin
+streamlit run src/muffin/app.py
 ```
 
 
 ## Features
-
+* **Web scraping**: Uses  `httpx` and `beautifulsoup4` to get all the french muffin recipes on Marmiton website.
 * **Vector Search:** Uses `chromadb` and `sentence-transformers` to find the most relevant recipe from a SQLite database based on your input.
 * **Local LLM:** Powered by **Ollama** running the **Mistral** model for secure, local text generation.
 * **Interactive UI:** A user-friendly interface built with **Streamlit**.
@@ -68,7 +74,7 @@ launch_ragamuffin
 
 Then, enter your ingredients (e.g., "chocolat, banane") and let MC Muffin drop the beat... and the recipe.
 
-## 📦 Dependencies
+## Dependencies
 
 Key libraries used in this project include:
 
