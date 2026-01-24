@@ -45,13 +45,16 @@ For the curious ones, I created my own crawler based on `httpx` to get the recip
 ```bash
 scrap_recipes
 ```
-2. Create and fill SQLite DB :
+2. Create and fill SQLite DB and chromaDB embeddings DB :
 ```bash
 # Setup the SQLite database schema
 initialize_db
 
 # Process raw data into the clean database
 fill_db
+
+# Map SQLite DB into an embedding db
+create_and_fill_embeddings_db
 ```
 *(Commands defined in `pyproject.toml`)*
 
