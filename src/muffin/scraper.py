@@ -90,7 +90,7 @@ def get_marmiton_json(url: str) -> dict | None:
             return data
 
 
-def run_scrapper():
+def run_scraper():
     """Script to get all the raw json recipes in a RAW_RECIPE_FOLDER folder"""
     urls = get_recipe_urls(nb_pages=1000)
 
@@ -117,4 +117,4 @@ def run_scrapper():
             with open(FAILED_LOG, "a") as f:
                 f.write(f"{url}\n")
 
-    logger.info("✅ Finished scrapping !")
+    logger.info("✅ Finished scraping !")
