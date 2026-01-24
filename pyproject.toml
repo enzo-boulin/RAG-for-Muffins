@@ -17,6 +17,7 @@ dependencies = [
     "chromadb",
     "sentence-transformers",
     "ollama",
+    "streamlit",
     "pytest",
 ]
 
