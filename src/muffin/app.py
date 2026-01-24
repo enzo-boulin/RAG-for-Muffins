@@ -1,8 +1,10 @@
+import logging
+import random
+
 import streamlit as st
+
 from muffin.constant import LOGGING_LEVEL
 from muffin.main import main
-import random
-import logging
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=LOGGING_LEVEL)
