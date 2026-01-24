@@ -63,6 +63,9 @@ def clean_servings(line: str) -> Servings:
 
     match_number = re.search(r"^(\d+)", normalized_line.strip())
 
+    if not match_number:
+        raise ValueError(f"Could not clean servings in : '{line}'")
+
     quantity = int(match_number.group(1))
 
     piece_keywords = [
@@ -164,6 +167,8 @@ def clean_ingredient(
 def clean_time(raw_time: str) -> int:
     """Nettoie une chaîne de durée brute et retourne la durée en minutes."""
     match = re.search(r"PT(\d+)M", raw_time)
+    if not match:
+        raise ValueError(f"Could not clean time in : {raw_time}")
     return int(match.group(1))
 
 
@@ -178,8 +183,12 @@ def raw_json_to_recipe(filepath: str) -> Recipe:
 
     instructions = [step.get("text") for step in raw_recipe.get("recipeInstructions")]
 
+    id_match = re.search(r"recipe_(\d+)", filepath)
+    if not id_match:
+        raise ValueError(f"Missing id in filepath : {filepath}")
+
     return Recipe(
-        id=int(re.search(r"recipe_(\d+)", filepath).group(1)),
+        id=int(id_match.group(1)),
         title=raw_recipe.get("name"),
         prep_time=clean_time(raw_recipe.get("prepTime")),
         cook_time=clean_time(raw_recipe.get("cookTime")),
