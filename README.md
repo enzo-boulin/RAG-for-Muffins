@@ -91,4 +91,4 @@ Key libraries used in this project include:
 
 ## Performance
 
-Running Mistral 7B locally can be quite intensive for the computer, the model needs 4.5 Go of free space and ideally 15 GB of RAM with a CPU, although it worked on my mac M1 8BG.
+Running Mistral 7B locally can be quite intensive for the computer, the model needs 4.5 Go of free space and ideally 15 GB of RAM with a CPU, although it worked on my mac M1 8GB.
