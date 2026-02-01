@@ -8,6 +8,13 @@ Not only does he cooks but the chatbot also loves to rap.
 
 **Note on Language:** While the code and documentation are in English, the AI assistant—**MC Muffin**—is programmed to respond exclusively in **French**.
 
+## Features
+* **Web scraping**: Uses  `httpx` and `beautifulsoup4` to get all the french muffin recipes on Marmiton website.
+* **Vector Search:** Uses `chromadb` and `sentence-transformers` to find the most relevant recipe from a SQLite database based on your input.
+* **Local LLM:** Powered by **Ollama** running the **Mistral 7B** model for secure, local text generation.
+* **Interactive UI:** A user-friendly interface built with **Streamlit**.
+
+
 ## Getting Started
 
 ### 1. Setup Environment
@@ -67,14 +74,6 @@ Run the Streamlit interface (local):
 ```bash
 streamlit run src/muffin/app.py
 ```
-
-
-## Features
-* **Web scraping**: Uses  `httpx` and `beautifulsoup4` to get all the french muffin recipes on Marmiton website.
-* **Vector Search:** Uses `chromadb` and `sentence-transformers` to find the most relevant recipe from a SQLite database based on your input.
-* **Local LLM:** Powered by **Ollama** running the **Mistral** model for secure, local text generation.
-* **Interactive UI:** A user-friendly interface built with **Streamlit**.
-
 
 
 Then, enter your ingredients (e.g., "chocolat, banane") and let MC Muffin drop the beat... and the recipe.
