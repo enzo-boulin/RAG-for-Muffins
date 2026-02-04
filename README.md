@@ -1,4 +1,5 @@
 <img width="1920" height="1080" alt="mcmuffin" src="https://github.com/user-attachments/assets/c9ad4864-4fd3-4e51-bced-dfd8c1d23e4d" />
+
 # 🧁 Muffin RAG Project
 
 ## Overview
